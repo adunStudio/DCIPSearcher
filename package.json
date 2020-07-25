@@ -1,0 +1,23 @@
+{
+  "name": "dcipseracher",
+  "version": "1.0.0",
+  "description": "디시인사이드 갤러리 유동 IP 게시글 조회",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adunStudio/DCIPSearcher.git"
+  },
+  "author": "adunstudio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adunStudio/DCIPSearcher/issues"
+  },
+  "homepage": "https://github.com/adunStudio/DCIPSearcher#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "request": "^2.88.2"
+  }
+}
