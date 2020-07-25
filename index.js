@@ -73,6 +73,7 @@ function Searh(url, page)
             let title = titleData.eq(0).text().trim();
             let commentCount = titleData.eq(1).text();
             let href = "https://gall.dcinside.com/" + titleData.eq(0).attr("href");
+            let date = data.find(".gall_date").attr("title");
 
             let findTitle = false;
             if(searchTitleList.length > 0)
@@ -93,7 +94,7 @@ function Searh(url, page)
             writeCount++;
 
             //console.log("[" + nickname + "](" + ip + ") " + title + " " + commentCount);
-            str += "[" + nickname + "](" + ip + ") " + title + " " + commentCount + " " + href + "\n";
+            str += "[" + nickname + "](" + ip + ") " + title + " " + commentCount + " " + href + " <" + date +">" + "\n";
         });
 
         if(writeCount > 0)
