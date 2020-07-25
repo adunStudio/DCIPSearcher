@@ -1,8 +1,11 @@
 const cheerio = require('cheerio');
 const request = require('request');
 
+
 const URL = "https://gall.dcinside.com/mgallery/board/lists/?id=game_dev";
 const SEARCH = "소년|211.168|14.33|220.127|39.7";
+const TITLE = "유니티|MVC";
+
 
 if(SEARCH === "")
 {
@@ -10,9 +13,10 @@ if(SEARCH === "")
     return;
 }
 
-let searchList = SEARCH.split("|");
+let searchNameOrIPList = SEARCH.split("|");
+let searchTitleList = (TITLE === "") ? [] : TITLE.split("|");
 
-const PAGE_SEARCH_COUNT = 10;
+const PAGE_SEARCH_COUNT = 3;
 
 for(var page = 1; page <= PAGE_SEARCH_COUNT; ++page)
 {
@@ -57,21 +61,36 @@ function Searh(url, page)
 
             let match = false;
             var count = 0;
-            for(var i = 0; i < searchList.length; ++i)
+            for(let i = 0; i < searchNameOrIPList.length; ++i)
             {
-                if(nickname === searchList[i]) { match = true; count++; }
-                if(ip       === searchList[i]) { match = true; count++; }
+                if(searchNameOrIPList[i] === "") continue;
+                if(nickname === searchNameOrIPList[i]) { match = true; count++; }
+                if(ip       === searchNameOrIPList[i]) { match = true; count++; }
                 //if(match == true) break;
             }
-
-            if(!match || count < 2) return;
-
-            writeCount++;
 
             let titleData =  data.find(".gall_tit").find("a");
             let title = titleData.eq(0).text().trim();
             let commentCount = titleData.eq(1).text();
             let href = "https://gall.dcinside.com/" + titleData.eq(0).attr("href");
+
+            let findTitle = false;
+            if(searchTitleList.length > 0)
+            {
+                for(let i = 0; i < searchTitleList.length; ++i)
+                {
+                    if(searchTitleList[i] === "") continue;
+                    if(title.indexOf(searchTitleList[i]) !== -1)
+                    {
+                        findTitle = true;
+                        break;
+                    }
+                }
+            }
+
+            if((!match || count < 2) && !findTitle) return;
+
+            writeCount++;
 
             //console.log("[" + nickname + "](" + ip + ") " + title + " " + commentCount);
             str += "[" + nickname + "](" + ip + ") " + title + " " + commentCount + " " + href + "\n";
